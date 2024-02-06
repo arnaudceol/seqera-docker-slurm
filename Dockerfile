@@ -11,4 +11,7 @@ RUN curl -s https://get.nextflow.io | bash && \
 COPY start.sh  /
 RUN chmod +x start.sh
 
+RUN systemctl enable slurmd
+RUN systemctl enable slurmctl
+
 ENTRYPOINT /start.sh
