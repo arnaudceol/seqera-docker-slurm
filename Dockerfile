@@ -12,6 +12,6 @@ COPY start.sh  /
 RUN chmod +x start.sh
 
 RUN systemctl enable slurmd
-RUN systemctl enable slurmctl
+RUN systemctl enable slurmctld
 
 ENTRYPOINT /start.sh
