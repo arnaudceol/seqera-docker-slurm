@@ -8,10 +8,5 @@ RUN curl -s https://get.nextflow.io | bash && \
  chmod a+xr nextflow && \
  mv nextflow /usr/local/bin
 
-COPY start.sh  /
-RUN chmod +x start.sh
-
-RUN systemctl enable slurmd
-RUN systemctl enable slurmctld
-
-ENTRYPOINT /start.sh
+RUN curl -fSL https://github.com/seqeralabs/tower-agent/releases/latest/download/tw-agent-linux-x86_64 > /usr/local/bin/tw-agent && \
+    chmod +x /usr/local/bin/tw-agent
