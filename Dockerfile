@@ -10,3 +10,10 @@ RUN curl -s https://get.nextflow.io | bash && \
 
 RUN curl -fSL https://github.com/seqeralabs/tower-agent/releases/latest/download/tw-agent-linux-x86_64 > /usr/local/bin/tw-agent && \
     chmod +x /usr/local/bin/tw-agent
+
+COPY start-agent.sh /usr/local/bin/start-agent.sh
+
+RUN chmod +x /usr/local/bin/start-agent.sh
+
+CMD /usr/sbin/init
+

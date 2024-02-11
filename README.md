@@ -11,7 +11,28 @@ export AGENT_CONNECTION_ID=<YOUR CONNECTION ID>
 export TOWER_ACCESS_TOKEN=<Your access token>
 
 # Add mount to any needed folder
-docker run  -ti -e AGENT_CONNECTION_ID=$AGENT_CONNECTION_ID  -e TOWER_ACCESS_TOKEN=$TOWER_ACCESS_TOKEN--rm  -v work:/work seqera-slurm
+docker run --rm --detach  \             
+    --name slurm \
+    -h "slurm-simulator" \
+    --security-opt seccomp:unconfined \
+    --privileged -e container=docker \
+    -v /run -v /sys/fs/cgroup:/sys/fs/cgroup \
+    --cgroupns=host \
+    -e AGENT_CONNECTION_ID=$AGENT_CONNECTION_ID  -e TOWER_ACCESS_TOKEN=$TOWER_ACCESS_TOKEN  \
+    -v ./work:/work  \
+    ghcr.io/arnaudceol/seqera-docker-slurm:main
+
+# Run the agent:
+docker exec slurm bash -c start-agent.sh
+```
+
+```bash
+docker run  -e AGENT_CONNECTION_ID=$AGENT_CONNECTION_ID  -e TOWER_ACCESS_TOKEN=$TOWER_ACCESS_TOKEN --rm -ti  --name slurm  \
+-v work:/work  \
+--security-opt seccomp:unconfined \
+--privileged -e container=docker \
+-v /run -v /sys/fs/cgroup:/sys/fs/cgroup \
+--cgroupns=host seqera-slurm /usr/sbin/init
 ```
 
 References:
