@@ -21,9 +21,8 @@ else
     echo "Node cores assigned (80% of total): $NUMCORESPERSOCKET"
 fi
 
-# echo "NodeName=node[001-10]      RealMemory=$MEMORY    Sockets=$NUMSOCKETS  CoresPerSocket=$NUMCORESPERSOCKET  ThreadsPerCore=1 State=UNKNOWN NodeAddr=slurm-simulator NodeHostName=slurm-simulator" > /etc/slurm/nodes.conf
-
-echo "NodeName=node$PROJECT CPUs=$NUMCORESPERSOCKET RealMemory=$MEMORY State=UNKNOWN Gres=gpu:1" > /etc/slurm/nodes.conf
+echo "NodeName=node001 CPUs=$NUMCORESPERSOCKET RealMemory=$MEMORY State=UNKNOWN Gres=gpu:1" > /etc/slurm/nodes.conf
+echo "PartitionName=long Nodes=node001 Default=YES State=UP OverSubscribe=NO MaxTime=14-00:00:00" > /etc/slurm/partitions.conf
 
 systemctl start slurmctld
 /bin/bash -c "USER=nextflow tw-agent $AGENT_CONNECTION_ID  --work-dir=/seqera/work/ -u $TOWER_API_ENDPOINT"
